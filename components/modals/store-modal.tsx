@@ -35,9 +35,10 @@ export default function StoreModal() {
 
             const res = await axios.post('/api/stores', values)
 
-            if(res){
-                toast.success("Store created")
-            }
+            //here you can use window api instead of redirect from Next
+            //because it will reload the page, making sure the db CRUD action takes effect
+            window.location.assign(`/${res.data.id}`)
+         
         } catch(error) {
             toast.error("Somthing went wrong")
         } finally {
