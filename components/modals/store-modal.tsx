@@ -3,7 +3,7 @@ import { useState } from "react"
 import axios from "axios"
 import { toast } from "react-hot-toast"
 
-import Modal from "../custom/Modal"
+import Modal from "./Modal"
 import { useStoreModal } from "@/hooks/use-store-modal"
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "../ui/form"
 import { Input } from "../ui/input"
