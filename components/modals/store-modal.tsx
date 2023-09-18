@@ -81,6 +81,7 @@ export default function StoreModal() {
                                     disabled={loading}
                                     variant="outline" 
                                     onClick={() => storeModal.onClose}
+                                    className="w-1/4"
                                 >
                                     Cancel
                                 </Button>
@@ -88,6 +89,7 @@ export default function StoreModal() {
                                 <Button 
                                     disabled={loading}
                                     type="submit"
+                                    className="w-1/4"
                                 >
                                     Continue
                                 </Button>
