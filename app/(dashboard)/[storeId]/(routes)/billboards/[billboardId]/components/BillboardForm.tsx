@@ -15,6 +15,8 @@ import { Input } from "@/components/ui/input"
 import toast from "react-hot-toast"
 import { useParams, useRouter } from "next/navigation"
 import AlertModal from "@/components/modals/alert-modal"
+import ImgUploader from "@/components/customs/ImgUploader"
+
 
 const formSchema = z.object({
     label: z.string().min(1),
@@ -41,7 +43,7 @@ export default function BillboardForm({ initData }: FormProps) {
 
     //form fields
     const title = initData ? "Edit Billboard" : "Create Billboard";
-    const desc = initData ? "Edit a billboard" : "Add a billboard";
+    const desc = initData ? "Edit a billboard" : "Add a new billboard";
     const toastMsg = initData ? "Billboard updated" : "Billboard created";
     const btnAction = initData ? "Save Changes" : "Create";
 
@@ -52,9 +54,15 @@ export default function BillboardForm({ initData }: FormProps) {
     const onSubmit = async(data: FormValues) => {
         try {
             setLoading(true)
-            await axios.patch(`/api/stores/${params.storeId}`, data)
+            if(initData) {
+                await axios.patch(`/api/${params.storeId}/billboards/${params.billboardId}`, data)
+            }
+            else {
+                await axios.post(`/api/${params.storeId}/billboards`, data)
+            }
             router.refresh()
-            toast.success("Store updated")
+            toast.success(toastMsg)
+
         } catch(error) {
             toast.error("Something went wrong")
         } finally {
@@ -65,12 +73,12 @@ export default function BillboardForm({ initData }: FormProps) {
     const onDelete = async() => {
         try {
             setLoading(true)
-            await axios.delete(`/api/stores/${params.storeId}`)
+            await axios.delete(`/api/${params.storeId}/billboards/${params.billboardId}`)
             router.refresh()
             router.push("/")
-            toast.success("Store deleted")
+            toast.success("Billboard deleted")
         } catch(error) {
-            toast.error("Error, make sure to remove all products and categories first")
+            toast.error("Error, make sure to remove all categories using this billboard")
         } finally {
             setLoading(false)
             setOpen(false)
@@ -106,6 +114,25 @@ export default function BillboardForm({ initData }: FormProps) {
             <Separator />
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full">
+                    <FormField 
+                        control={form.control}
+                        name="imageUrl"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Background Image</FormLabel>
+                                <FormControl>
+                                    <ImgUploader
+                                        value={field.value ? [field.value] : []}
+                                        disabled={loading}
+                                        onChange={(url) => field.onChange(url)}
+                                        onRemove={() => field.onChange("")}
+                                    />       
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />  
+                    
                     <div className="grid grid-cols-3 gap-8">
                         <FormField 
                             control={form.control}
