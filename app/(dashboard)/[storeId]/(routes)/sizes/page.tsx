@@ -13,7 +13,7 @@ export default async function SizesPage({ params }: { params: { storeId: string 
             storeId: params.storeId
         },
         orderBy: {
-            createdAt: "desc"
+            updatedAt: "desc"
         }
     })
 
@@ -21,7 +21,7 @@ export default async function SizesPage({ params }: { params: { storeId: string 
         id: item.id,
         name: item.name,
         value: item.value,
-        createdAt: format(item.createdAt, "MMMM dd, yyyy")
+        updatedAt: format(item.updatedAt, "MMMM dd, yyyy")
     }))
 
 

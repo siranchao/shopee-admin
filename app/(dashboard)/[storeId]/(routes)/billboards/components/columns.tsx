@@ -8,7 +8,7 @@ import { CellAction } from "./CellAction"
 export type BillboardColumn = {
   id: string
   label: string
-  createdAt: string
+  updatedAt: string
 }
 
 export const columns: ColumnDef<BillboardColumn>[] = [
@@ -17,8 +17,8 @@ export const columns: ColumnDef<BillboardColumn>[] = [
     header: "Label",
   },
   {
-    accessorKey: "createdAt",
-    header: "Date",
+    accessorKey: "updatedAt",
+    header: "Last Updated",
   },
   {
     id: "actions",

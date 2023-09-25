@@ -13,14 +13,14 @@ export default async function BillboardsPage({ params }: { params: { storeId: st
             storeId: params.storeId
         },
         orderBy: {
-            createdAt: "desc"
+            updatedAt: "desc"
         }
     })
 
     const formattedBillboards: BillboardColumn[] = billboards.map((billboard) => ({
         id: billboard.id,
         label: billboard.label,
-        createdAt: format(billboard.createdAt, "MMMM dd, yyyy")
+        updatedAt: format(billboard.updatedAt, "MMMM dd, yyyy")
     }))
 
     return (

@@ -1,6 +1,6 @@
 'use client'
 
-import { SizeColumn } from "./columns"
+import { ColorColumn } from "./columns"
 import { Button } from "@/components/ui/button"
 import toast from "react-hot-toast"
 
@@ -21,7 +21,7 @@ import AlertModal from "@/components/modals/alert-modal"
   
 
 interface CellActionProps {
-    data: SizeColumn
+    data: ColorColumn
 }
 
 export function CellAction({ data }: CellActionProps) {
@@ -32,19 +32,19 @@ export function CellAction({ data }: CellActionProps) {
     const router = useRouter()
     const params = useParams()
 
-    const onCopy = (id: string) => {
-        navigator.clipboard.writeText(id)
-        toast.success("Size ID copied")
+    const onCopy = (str: string, type: string) => {
+        navigator.clipboard.writeText(str)
+        toast.success(`Color ${type} copied`)
     }
 
     const onDelete = async() => {
         try {
             setLoading(true)
-            await axios.delete(`/api/${params.storeId}/sizes/${data.id}`)
+            await axios.delete(`/api/${params.storeId}/colors/${data.id}`)
             router.refresh()
-            toast.success("Size deleted")
+            toast.success("Color deleted")
         } catch(error) {
-            toast.error("Error, please remove all products using this size")
+            toast.error("Error, please remove all products using this color")
         } finally {
             setLoading(false)
             setOpen(false)
@@ -70,14 +70,19 @@ export function CellAction({ data }: CellActionProps) {
                 <DropdownMenuContent align="end">
                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem className="my-1 hover:font-semibold" onClick={() => {router.push(`/${params.storeId}/sizes/${data.id}`)}}>
+                    <DropdownMenuItem className="my-1 hover:font-semibold" onClick={() => {router.push(`/${params.storeId}/colors/${data.id}`)}}>
                         <Edit className="mr-2 h-4 w-4" />
                         Update
                     </DropdownMenuItem>
 
-                    <DropdownMenuItem className="my-1 hover:font-semibold" onClick={() => onCopy(data.id)}>
+                    <DropdownMenuItem className="my-1 hover:font-semibold" onClick={() => onCopy(data.id, "ID")}>
                         <Copy className="mr-2 h-4 w-4" />
                         Copy ID
+                    </DropdownMenuItem>
+
+                    <DropdownMenuItem className="my-1 hover:font-semibold" onClick={() => onCopy(data.value, "Hex code")}>
+                        <Copy className="mr-2 h-4 w-4" />
+                        Copy value
                     </DropdownMenuItem>
 
                     <DropdownMenuItem className="my-1 hover:font-semibold" onClick={() => setOpen(true)}>

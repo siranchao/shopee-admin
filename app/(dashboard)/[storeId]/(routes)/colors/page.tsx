@@ -1,36 +1,35 @@
 
 import prismadb from "@/lib/prismadb"
 import { format } from "date-fns"
-import { CategoryColumn } from "./components/columns"
-import CategoryClient from "./components/Client"
+
+import ColorClient from "./components/Client"
+import { ColorColumn } from "./components/columns"
 
 
-export default async function CategoriesPage({ params }: { params: { storeId: string } }) {
+export default async function ColorsPage({ params }: { params: { storeId: string } }) {
 
-    const categories = await prismadb.category.findMany({
+    const colors = await prismadb.color.findMany({
         where: {
             storeId: params.storeId
-        },
-        include: {
-            billboard: true
         },
         orderBy: {
             updatedAt: "desc"
         }
     })
 
-    const formattedCategories: CategoryColumn[] = categories.map((item) => ({
+    const formattedColors: ColorColumn[] = colors.map((item) => ({
         id: item.id,
         name: item.name,
-        billboardLabel: item.billboard.label,
+        value: item.value,
         updatedAt: format(item.updatedAt, "MMMM dd, yyyy")
     }))
+
 
     return (
         <>
             <div className="flex-col">
                 <div className="flex-1 space-y-4 p-8 pt-6">
-                    <CategoryClient data={formattedCategories} />
+                    <ColorClient data={formattedColors} />
                 </div>
             </div>
         </>
