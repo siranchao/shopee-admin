@@ -23,7 +23,7 @@ export default async function CategoriesPage({ params }: { params: { storeId: st
         id: item.id,
         name: item.name,
         billboardLabel: item.billboard.label,
-        updatedAt: format(item.updatedAt, "MMMM dd, yyyy")
+        updatedAt: format(item.updatedAt, "MMM dd, yyyy")
     }))
 
     return (

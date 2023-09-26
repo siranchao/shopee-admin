@@ -20,7 +20,7 @@ export default async function BillboardsPage({ params }: { params: { storeId: st
     const formattedBillboards: BillboardColumn[] = billboards.map((billboard) => ({
         id: billboard.id,
         label: billboard.label,
-        updatedAt: format(billboard.updatedAt, "MMMM dd, yyyy")
+        updatedAt: format(billboard.updatedAt, "MMM dd, yyyy")
     }))
 
     return (

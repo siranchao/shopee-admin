@@ -21,7 +21,7 @@ export default async function ColorsPage({ params }: { params: { storeId: string
         id: item.id,
         name: item.name,
         value: item.value,
-        updatedAt: format(item.updatedAt, "MMMM dd, yyyy")
+        updatedAt: format(item.updatedAt, "MMM dd, yyyy")
     }))
 
 
