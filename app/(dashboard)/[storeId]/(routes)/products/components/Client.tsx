@@ -22,8 +22,8 @@ export default function ProductClient({ data }: ProductClientProps) {
         <>
             <div className="flex items-center justify-between">
                 <Heading
-                    title={`Product (${data.length})`}
-                    desc="Manage product for your store"
+                    title={`Products (${data.length})`}
+                    desc="Manage products for your store"
                 />
                 <Button onClick={() => router.push(`/${params.storeId}/products/new`)}>
                     <Plus className="mr-2 h-4 w-4"/>
