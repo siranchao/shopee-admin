@@ -21,7 +21,7 @@ export default async function OrdersPage({ params }: { params: { storeId: string
             }
         },
         orderBy: {
-            updatedAt: "desc"
+            createdAt: "desc"
         }
     })
 
@@ -32,7 +32,7 @@ export default async function OrdersPage({ params }: { params: { storeId: string
         isPaid: order.isPaid ? "Yes" : "No",
         products: order.orderItems.map((item) => item.product.name).join(", "),
         totalPrice: formatter.format(order.orderItems.reduce((acc, cur) => acc + Number(cur.product.price), 0)),
-        updatedAt: format(order.updatedAt, "MMM dd, yyyy")
+        createdAt: format(order.updatedAt, "MMM dd, yyyy")
     }))
 
     return (

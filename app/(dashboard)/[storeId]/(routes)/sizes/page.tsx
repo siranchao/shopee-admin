@@ -13,7 +13,7 @@ export default async function SizesPage({ params }: { params: { storeId: string 
             storeId: params.storeId
         },
         orderBy: {
-            updatedAt: "desc"
+            name: "asc"
         }
     })
 

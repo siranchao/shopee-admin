@@ -15,7 +15,7 @@ export default async function CategoriesPage({ params }: { params: { storeId: st
             billboard: true
         },
         orderBy: {
-            updatedAt: "desc"
+            displayOrder: "asc"
         }
     })
 
@@ -23,6 +23,7 @@ export default async function CategoriesPage({ params }: { params: { storeId: st
         id: item.id,
         name: item.name,
         billboardLabel: item.billboard.label,
+        displayOrder: item.displayOrder,
         updatedAt: format(item.updatedAt, "MMM dd, yyyy")
     }))
 

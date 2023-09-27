@@ -7,14 +7,14 @@ export async function POST(req: Request, { params }: { params: { storeId: string
     try {
         const { userId } = auth()
         const body = await req.json()
-        const { name, billboardId } = body
+        const { name, billboardId, displayOrder } = body
 
         if(!userId) {
             return new NextResponse('Unauthorized', { status: 401 })
         }
 
-        if(!name || !billboardId) {
-            return new NextResponse('Name or Billboard ID is missing', { status: 400 })
+        if(!name || !billboardId || !displayOrder) {
+            return new NextResponse('Missing input fields', { status: 400 })
         }
 
         if(!params.storeId) {
@@ -36,6 +36,7 @@ export async function POST(req: Request, { params }: { params: { storeId: string
             data: {
                 name,
                 billboardId,
+                displayOrder,
                 storeId: params.storeId
             }
         })

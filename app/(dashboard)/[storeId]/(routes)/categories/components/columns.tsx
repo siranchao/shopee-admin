@@ -9,6 +9,7 @@ export type CategoryColumn = {
   id: string
   name: string
   billboardLabel: string
+  displayOrder: number
   updatedAt: string
 }
 
@@ -16,6 +17,10 @@ export const columns: ColumnDef<CategoryColumn>[] = [
   {
     accessorKey: "name",
     header: "Name",
+  },
+  {
+    accessorKey: "displayOrder",
+    header: "Display Order",
   },
   {
     accessorKey: "billboard",

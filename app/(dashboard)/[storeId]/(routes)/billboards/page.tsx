@@ -13,7 +13,7 @@ export default async function BillboardsPage({ params }: { params: { storeId: st
             storeId: params.storeId
         },
         orderBy: {
-            updatedAt: "desc"
+            label: "asc"
         }
     })
 

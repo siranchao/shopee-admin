@@ -11,7 +11,7 @@ export type OrderColumn = {
   isPaid: string
   totalPrice: string
   products: string
-  updatedAt: string
+  createdAt: string
 }
 
 export const columns: ColumnDef<OrderColumn>[] = [

@@ -10,7 +10,6 @@ export async function GET(_req: Request, { params }: { params: { categoryId: str
             return new NextResponse('Category ID is required', { status: 400 })
         }
 
-        //find billboard
         const category = await prismadb.category.findMany({
             where: {
                 id: params.categoryId,
@@ -30,14 +29,14 @@ export async function PATCH(req: Request, { params }: { params: { storeId: strin
     try {
         const { userId } = auth()
         const body = await req.json()
-        const { name, billboardId } = body
+        const { name, billboardId, displayOrder } = body
 
         if(!userId) {
             return new NextResponse('Unauthorized', { status: 401 })
         }
 
-        if(!name || !billboardId) {
-            return new NextResponse('Name or Billboard ID is missing', { status: 400 })
+        if(!name || !billboardId || !displayOrder) {
+            return new NextResponse('Missing input fields', { status: 400 })
         }
 
         if(!params.storeId) {
@@ -59,14 +58,14 @@ export async function PATCH(req: Request, { params }: { params: { storeId: strin
             return new NextResponse('Unauthorized action', { status: 403 })
         }
 
-        //update billboard
         const category = await prismadb.category.updateMany({
             where: {
                 id: params.categoryId,
             },
             data: {
                 name,
-                billboardId
+                billboardId,
+                displayOrder
             }
         })
 
@@ -105,7 +104,6 @@ export async function DELETE(_req: Request, { params }: { params: { storeId: str
             return new NextResponse('Unauthorized action', { status: 403 })
         }
 
-        //delete billboard
         const category = await prismadb.category.deleteMany({
             where: {
                 id: params.categoryId,

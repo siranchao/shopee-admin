@@ -20,7 +20,8 @@ import AlertModal from "@/components/modals/alert-modal"
 
 const formSchema = z.object({
     name: z.string().min(1),
-    billboardId: z.string().min(1)
+    billboardId: z.string().min(1),
+    displayOrder: z.coerce.number()
 })
 
 type FormValues = z.infer<typeof formSchema>
@@ -38,7 +39,8 @@ export default function CategoryForm({ initData, billboards }: FormProps) {
         resolver: zodResolver(formSchema),
         defaultValues: initData || {
             name: "",
-            billboardId: ""
+            billboardId: "",
+            displayOrder: 0
         }
     })
 
@@ -163,6 +165,22 @@ export default function CategoryForm({ initData, billboards }: FormProps) {
                                 </FormItem>
                             )}
                         />
+
+                        <FormField 
+                            control={form.control}
+                            name="displayOrder"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Display Order</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder="enter order" type="number" disabled={loading} {...field}/>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+    
                     </div>
                     <Button disabled={loading} type="submit" className="ml-auto">
                         {btnAction}
