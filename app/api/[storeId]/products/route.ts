@@ -59,7 +59,6 @@ export async function POST(req: Request, { params }: { params: { storeId: string
 }
 
 
-
 export async function GET(req: Request, { params }: { params: { storeId: string } }) {
 
     try {
@@ -67,7 +66,7 @@ export async function GET(req: Request, { params }: { params: { storeId: string 
         const categoryId = searchParams.get('categoryId') || ""
         const colorId = searchParams.get('colorId') || ""
         const sizeId = searchParams.get('sizeId') || ""
-        const isFeatured = searchParams.get('isFeatured')
+        const isFeatured = searchParams.get('isFeatured') === "true"
 
         if(!params.storeId) {
             return new NextResponse('Store ID is required', { status: 400 })
@@ -76,9 +75,9 @@ export async function GET(req: Request, { params }: { params: { storeId: string 
         const products = await prismadb.product.findMany({
             where: {
                 storeId: params.storeId,
-                categoryId,
-                colorId,
-                sizeId,
+                categoryId: categoryId ? categoryId : undefined,
+                colorId: colorId ? colorId : undefined,
+                sizeId: sizeId ? sizeId : undefined,
                 isFeatured: isFeatured ? true : undefined,
                 isArchived: false
             },
