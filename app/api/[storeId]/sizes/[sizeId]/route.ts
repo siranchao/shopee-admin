@@ -13,6 +13,13 @@ export async function GET(_req: Request, { params }: { params: { sizeId: string 
         const size = await prismadb.size.findMany({
             where: {
                 id: params.sizeId,
+            },
+            include: {
+                category: {
+                    select: {
+                        name: true
+                    }
+                }
             }
         })
 
@@ -29,14 +36,14 @@ export async function PATCH(req: Request, { params }: { params: { storeId: strin
     try {
         const { userId } = auth()
         const body = await req.json()
-        const { name, value } = body
+        const { name, categoryId } = body
 
         if(!userId) {
             return new NextResponse('Unauthorized', { status: 401 })
         }
 
-        if(!name || !value) {
-            return new NextResponse('Name or value is missing', { status: 400 })
+        if(!name || !categoryId) {
+            return new NextResponse('Name or categoryId is missing', { status: 400 })
         }
 
         if(!params.storeId) {
@@ -64,7 +71,7 @@ export async function PATCH(req: Request, { params }: { params: { storeId: strin
             },
             data: {
                 name,
-                value
+                categoryId
             }
         })
 
