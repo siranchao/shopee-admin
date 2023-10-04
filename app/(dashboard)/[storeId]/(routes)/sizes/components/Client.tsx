@@ -32,7 +32,7 @@ export default function SizeClient({ data }: SizeClientProps) {
             </div>
             <Separator />
 
-            <DataTable columns={columns} data={data} searchValue="name"/>
+            <DataTable columns={columns} data={data} searchValue="category"/>
 
             <Heading title="API" desc="API calls for Sizes"/>
             <Separator />

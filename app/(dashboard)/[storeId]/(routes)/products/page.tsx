@@ -15,7 +15,6 @@ export default async function ProductsPage({ params }: { params: { storeId: stri
         },
         include: {
             category: true,
-            size: true,
             color: true
         },
         orderBy: {
@@ -30,7 +29,6 @@ export default async function ProductsPage({ params }: { params: { storeId: stri
         isArchived: item.isArchived ? "Yes" : "No",
         price: formatter.format(item.price.toNumber()),
         category: item.category.name,
-        size: item.size.value,
         color: item.color.value,
         updatedAt: format(item.updatedAt, "MMM dd, yyyy")
     }))

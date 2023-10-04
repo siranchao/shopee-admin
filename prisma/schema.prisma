@@ -56,6 +56,8 @@ model Category {
 
   products Product[] @relation("CategoryToProduct")
 
+  sizes Size[] @relation("CategoryToSize")
+
   @@index([storeId])
   @@index([billboardId])
 }
@@ -63,16 +65,17 @@ model Category {
 model Size {
   id        String   @id @default(uuid())
   name      String
-  value     String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   storeId String
   store   Store  @relation("StoreToSize", fields: [storeId], references: [id])
 
-  products Product[]
+  categoryId String
+  category   Category @relation("CategoryToSize", fields: [categoryId], references: [id])
 
   @@index([storeId])
+  @@index([categoryId])
 }
 
 model Color {
@@ -108,15 +111,11 @@ model Product {
   categoryId String
   category   Category @relation("CategoryToProduct", fields: [categoryId], references: [id])
 
-  sizeId String
-  size   Size   @relation(fields: [sizeId], references: [id])
-
   colorId String
   color   Color  @relation(fields: [colorId], references: [id])
 
   @@index([storeId])
   @@index([categoryId])
-  @@index([sizeId])
   @@index([colorId])
 }
 
@@ -149,7 +148,8 @@ model Order {
 }
 
 model OrderItem {
-  id String @id @default(uuid())
+  id   String @id @default(uuid())
+  size String @default("")
 
   orderId String
   order   Order  @relation(fields: [orderId], references: [id])

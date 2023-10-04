@@ -12,16 +12,19 @@ export default async function SizesPage({ params }: { params: { storeId: string 
         where: {
             storeId: params.storeId
         },
+        include: {
+            category: true
+        },
         orderBy: {
-            name: "asc"
+            createdAt: "asc"
         }
     })
 
     const formattedSizes: SizeColumn[] = sizes.map((item) => ({
         id: item.id,
         name: item.name,
-        value: item.value,
-        updatedAt: format(item.updatedAt, "MMM dd, yyyy")
+        category: item.category.name,
+        createdAt: format(item.createdAt, "MMM dd, yyyy")
     }))
 
 
