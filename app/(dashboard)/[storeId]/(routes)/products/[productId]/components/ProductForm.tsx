@@ -143,7 +143,7 @@ export default function ProductForm({
                         name="images"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Images</FormLabel>
+                                <FormLabel>Images (upload order same as display order)</FormLabel>
                                 <FormControl>
                                     <ImgUploader
                                         value={field.value.map((item) => item.url)}
