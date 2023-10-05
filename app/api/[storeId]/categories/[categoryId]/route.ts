@@ -13,6 +13,9 @@ export async function GET(_req: Request, { params }: { params: { categoryId: str
         const category = await prismadb.category.findMany({
             where: {
                 id: params.categoryId,
+            },
+            include: {
+                billboard: true
             }
         })
 
