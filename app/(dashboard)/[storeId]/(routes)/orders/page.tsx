@@ -13,12 +13,12 @@ export default async function OrdersPage({ params }: { params: { storeId: string
     const orders = await prismadb.order.findMany({
         where: {
             storeId: params.storeId,
-            phone: {
-                not: ""
-            },
-            address: {
-                not: ""
-            }
+            // phone: {
+            //     not: ""
+            // },
+            // address: {
+            //     not: ""
+            // }
         },
         include: {
             orderItems: {
