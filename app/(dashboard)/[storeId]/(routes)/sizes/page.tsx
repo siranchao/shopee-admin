@@ -1,10 +1,15 @@
-
 import prismadb from "@/lib/prismadb"
 import { format } from "date-fns"
 
 import SizeClient from "./components/Client"
 import { SizeColumn } from "./components/columns"
 
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+    title: 'Admin | Sizes',
+    description: 'Shopee Admin - Manage Sizes',
+}
 
 export default async function SizesPage({ params }: { params: { storeId: string } }) {
 

@@ -1,9 +1,15 @@
-
 import prismadb from "@/lib/prismadb"
 import { format } from "date-fns"
 
 import ColorClient from "./components/Client"
 import { ColorColumn } from "./components/columns"
+
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+    title: 'Admin | Colors',
+    description: 'Shopee Admin - Mangage Colors',
+}
 
 
 export default async function ColorsPage({ params }: { params: { storeId: string } }) {

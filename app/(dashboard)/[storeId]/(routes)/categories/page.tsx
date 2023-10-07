@@ -1,8 +1,15 @@
-
 import prismadb from "@/lib/prismadb"
 import { format } from "date-fns"
+
 import { CategoryColumn } from "./components/columns"
 import CategoryClient from "./components/Client"
+
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+    title: 'Admin | Categories',
+    description: 'Shopee Admin - Mangage Categories',
+}
 
 
 export default async function CategoriesPage({ params }: { params: { storeId: string } }) {

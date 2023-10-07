@@ -1,14 +1,8 @@
 import prismadb from "@/lib/prismadb"
 import { auth } from "@clerk/nextjs"
 import { redirect } from "next/navigation"
-
 import Navbar from "@/components/navbar/Navbar"
-import type { Metadata } from 'next'
 
-export const metadata: Metadata = {
-    title: 'Store Dashboard',
-    description: 'Shopee Admin - Store Dashboard',
-  }
 
 export default async function DashboardLayout({ children, params }: 
     { children: React.ReactNode, params: { storeId: string } }

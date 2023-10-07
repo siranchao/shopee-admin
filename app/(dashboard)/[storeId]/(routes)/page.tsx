@@ -12,6 +12,12 @@ import Overview from "@/components/charts/Overview"
 import Piechart from "@/components/charts/PieChart"
 import AovChart from "@/components/charts/AovChart"
 
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+    title: 'Admin | Dashboard',
+    description: 'Shopee Admin - Store Dashboard',
+}
 
 export default async function DashboardPage({ params }: { params: { storeId: string } }) {
 

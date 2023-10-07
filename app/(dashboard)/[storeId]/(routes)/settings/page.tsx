@@ -3,7 +3,12 @@ import { auth } from "@clerk/nextjs"
 import { redirect } from "next/navigation"
 
 import SettingForm from "./components/SettingForm"
+import type { Metadata } from 'next'
 
+export const metadata: Metadata = {
+    title: 'Admin | Settings',
+    description: 'Shopee Admin - Store Settings',
+}
 
 export default async function SettingsPage({ params }: { params: { storeId: string } }) {
 

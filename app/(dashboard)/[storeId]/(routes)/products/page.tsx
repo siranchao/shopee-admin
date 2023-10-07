@@ -1,4 +1,3 @@
-
 import prismadb from "@/lib/prismadb"
 import { format } from "date-fns"
 import { formatter } from "@/lib/utils"
@@ -6,6 +5,12 @@ import { formatter } from "@/lib/utils"
 import ProductClient from "./components/Client"
 import { ProductColumn } from "./components/columns"
 
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+    title: 'Admin | Products',
+    description: 'Shopee Admin - Manage Products',
+}
 
 export default async function ProductsPage({ params }: { params: { storeId: string } }) {
 
