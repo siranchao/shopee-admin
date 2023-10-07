@@ -25,7 +25,7 @@ export default async function DashboardPage({ params }: { params: { storeId: str
         return {
             name: data.name,
             Aov: data.revenue / data.order_count,
-            order_count: data.order_count
+            revenue: data.revenue
         }
     })
 
@@ -109,7 +109,7 @@ export default async function DashboardPage({ params }: { params: { storeId: str
                         <Card className="md:col-span-2">
                             <CardHeader>
                                 <CardTitle>Average Order Value (AOV)</CardTitle>  
-                                <CardDescription>Compare with monthly orders</CardDescription>                           
+                                <CardDescription>AOV growth vs. revenue growth</CardDescription>                           
                             </CardHeader>
                             <CardContent className="p-4">
                                 <AovChart data={aovData}/>

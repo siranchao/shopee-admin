@@ -4,7 +4,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 interface GraphData {
     name: string
     Aov: number
-    order_count: number
+    revenue: number
 }
 
 interface AovProps {
@@ -35,17 +35,18 @@ export default function AovChart({ data }: AovProps) {
                         tickFormatter={value => `$${value}`}
                     />
                     <YAxis  
-                        stroke='#ff7300'
+                        stroke='#82ca9d'
                         yAxisId="right" 
                         orientation="right"
                         fontSize={12}
                         tickLine={false}
                         axisLine={false}
+                        tickFormatter={value => `$${value}`}
                     />
                     <Tooltip />
                     <Legend />
                     <Line yAxisId="left" type="monotone" dataKey="Aov" stroke='#8884d8' activeDot={{ r: 4 }}/>
-                    <Line yAxisId="right" type="monotone" dataKey="order_count" stroke="#ff7300" strokeDasharray="5 5"/>
+                    <Line yAxisId="right" type="monotone" dataKey="revenue" stroke="#82ca9d" strokeDasharray="5 5"/>
                 </LineChart>
             </ResponsiveContainer>
         </>
