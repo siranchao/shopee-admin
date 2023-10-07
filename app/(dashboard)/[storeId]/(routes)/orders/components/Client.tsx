@@ -19,7 +19,7 @@ export default function OrderClient({ data }: OrderClientProps) {
         
             <Separator />
 
-            <DataTable columns={columns} data={data} searchValue="products"/>
+            <DataTable columns={columns} data={data} searchValue="id"/>
         </>
     )
 }
