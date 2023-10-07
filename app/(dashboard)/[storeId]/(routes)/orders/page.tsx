@@ -9,14 +9,26 @@ import { OrderColumn } from "./components/columns"
 
 export default async function OrdersPage({ params }: { params: { storeId: string } }) {
 
+    // Orders without address and phone will not be shown
     const orders = await prismadb.order.findMany({
         where: {
-            storeId: params.storeId
+            storeId: params.storeId,
+            // phone: {
+            //     not: ""
+            // },
+            // address: {
+            //     not: ""
+            // }
         },
         include: {
             orderItems: {
                 include: {
-                    product: true
+                    product: {
+                        include: {
+                            color: true,
+                            category: true
+                        }
+                    }
                 }
             }
         },
@@ -30,9 +42,17 @@ export default async function OrdersPage({ params }: { params: { storeId: string
         phone: order.phone,
         address: order.address,
         isPaid: order.isPaid ? "Yes" : "No",
-        products: order.orderItems.map((item) => item.product.name).join(", "),
-        totalPrice: formatter.format(order.orderItems.reduce((acc, cur) => acc + Number(cur.product.price), 0)),
-        createdAt: format(order.updatedAt, "MMM dd, yyyy")
+        totalPrice: formatter.format(order.orderItems.reduce((total, item) => Number(item?.product?.price)*item.qty + total, 0)),
+        createdAt: format(order.createdAt, "MMM dd, yyyy"),
+        orderItems: order.orderItems.map((item) => ({
+            id: item.id,
+            productName: item.product?.name,
+            size: item.size,
+            qty: item.qty,
+            color: item.product?.color.name,
+            price: formatter.format(Number(item.product?.price)),
+            category: item.product?.category.name,
+        }))
     }))
 
     return (

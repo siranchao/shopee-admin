@@ -1,6 +1,7 @@
 import prismadb from "@/lib/prismadb"
 import ProductForm from "./components/ProductForm"
 
+
 export default async function ProductDetail({ params }: { params: { storeId: string, productId: string } }) {
     const productPromise = prismadb.product.findUnique({
         where: {
@@ -17,22 +18,15 @@ export default async function ProductDetail({ params }: { params: { storeId: str
         }
     })
 
-    const sizesPromise = prismadb.size.findMany({
-        where: {
-            storeId: params.storeId
-        }
-    })
-
     const colorsPromise = prismadb.color.findMany({
         where: {
             storeId: params.storeId
         }
     })
 
-    const [product, categories, sizes, colors] = await Promise.all([
+    const [product, categories, colors] = await Promise.all([
         productPromise,
         categoriesPromise,
-        sizesPromise,
         colorsPromise
     ])
 
@@ -43,7 +37,6 @@ export default async function ProductDetail({ params }: { params: { storeId: str
                     <ProductForm 
                         initData={product}
                         categories={categories}
-                        sizes={sizes}
                         colors={colors}
                     />
                 </div>

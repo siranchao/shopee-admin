@@ -2,7 +2,7 @@
 import * as z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { Size } from "@prisma/client"
+import { Size, Category } from "@prisma/client"
 import { useState } from "react"
 import axios from "axios"
 
@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button"
 import { Trash } from "lucide-react"
 import { Separator } from "@/components/ui/separator"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Input } from "@/components/ui/input"
 import toast from "react-hot-toast"
 import { useParams, useRouter } from "next/navigation"
@@ -19,16 +20,17 @@ import AlertModal from "@/components/modals/alert-modal"
 
 const formSchema = z.object({
     name: z.string().min(1),
-    value: z.string().min(1)
+    categoryId: z.string().min(1)
 })
 
 type FormValues = z.infer<typeof formSchema>
 
 interface FormProps {
     initData: Size | null
+    categories: Category[]
 }
 
-export default function SizeForm({ initData }: FormProps) {
+export default function SizeForm({ initData, categories }: FormProps) {
     const params = useParams()
     const router = useRouter()
 
@@ -36,7 +38,7 @@ export default function SizeForm({ initData }: FormProps) {
         resolver: zodResolver(formSchema),
         defaultValues: initData || {
             name: "",
-            value: ""
+            categoryId: ""
         }
     })
 
@@ -52,7 +54,6 @@ export default function SizeForm({ initData }: FormProps) {
 
     const onSubmit = async(data: FormValues) => {
         try {
-            data.value = data.value.toUpperCase()
             setLoading(true)
             if(initData) {
                 await axios.patch(`/api/${params.storeId}/sizes/${params.sizeId}`, data)
@@ -132,13 +133,32 @@ export default function SizeForm({ initData }: FormProps) {
 
                         <FormField 
                             control={form.control}
-                            name="value"
+                            name="categoryId"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Value</FormLabel>
-                                    <FormControl>
-                                        <Input placeholder="Size Value" disabled={loading} {...field}/>
-                                    </FormControl>
+                                    <FormLabel>Category</FormLabel>
+                                    <Select 
+                                        disabled={loading} 
+                                        onValueChange={field.onChange} 
+                                        value={field.value} 
+                                        defaultValue={field.value}
+                                    >
+                                        <FormControl>
+                                            <SelectTrigger>
+                                                <SelectValue
+                                                    defaultValue={field.value} 
+                                                    placeholder="Select a category"
+                                                />
+                                            </SelectTrigger>
+                                        </FormControl>    
+                                        <SelectContent>
+                                            {categories.map((category) => (
+                                                <SelectItem key={category.id} value={category.id}>
+                                                    {category.name}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
                                     <FormMessage />
                                 </FormItem>
                             )}

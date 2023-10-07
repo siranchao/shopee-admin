@@ -1,6 +1,7 @@
 "use client"
-
+import { CellAction } from "./CellAction"
 import { ColumnDef } from "@tanstack/react-table"
+import { OrderItem } from "@prisma/client"
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -10,14 +11,14 @@ export type OrderColumn = {
   address: string
   isPaid: string
   totalPrice: string
-  products: string
   createdAt: string
+  orderItems: any
 }
 
 export const columns: ColumnDef<OrderColumn>[] = [
   {
-    accessorKey: "products",
-    header: "Products",
+    accessorKey: "id",
+    header: "Order ID",
   },
   {
     accessorKey: "phone",
@@ -29,10 +30,20 @@ export const columns: ColumnDef<OrderColumn>[] = [
   },
   {
     accessorKey: "totalPrice",
-    header: "Total Price",
+    header: "Total",
   },
   {
     accessorKey: "isPaid",
     header: "Paid",
   },
+  {
+    accessorKey: "createdAt",
+    header: "Created At",
+  },
+  {
+    id: "actions",
+    cell: ({ row }) => (
+      <CellAction data={row.original}/>
+    )
+  }
 ]

@@ -18,7 +18,6 @@ export async function GET(_req: Request, { params }: { params: { productId: stri
                 images: true,
                 category: true,
                 color: true,
-                size: true
             }
         })
 
@@ -41,7 +40,7 @@ export async function PATCH(req: Request, { params }: { params: { storeId: strin
             return new NextResponse('Unauthorized', { status: 401 })
         }
 
-        if(Object.keys(body).length !== 8) {
+        if(Object.keys(body).length !== 7) {
             return new NextResponse('Missing required fields', { status: 400 })
         }
 
