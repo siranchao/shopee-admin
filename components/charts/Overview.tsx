@@ -1,5 +1,6 @@
 'use client'
 import { Bar, BarChart, XAxis, YAxis, ResponsiveContainer, Tooltip, CartesianGrid, Legend } from 'recharts';
+import { useState, useEffect } from 'react'
 
 interface GraphData {
     name: string
@@ -12,6 +13,15 @@ interface OverviewProps {
 }
 
 export default function Overview({ data }: OverviewProps) {
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, [])
+
+    if(!mounted) {
+        return null;
+    }
 
     return (
         <>

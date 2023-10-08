@@ -1,5 +1,6 @@
 'use client'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { useState, useEffect } from 'react'
 
 interface GraphData {
     name: string
@@ -12,6 +13,15 @@ interface AovProps {
 }
 
 export default function AovChart({ data }: AovProps) {
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, [])
+
+    if(!mounted) {
+        return null;
+    }
 
     return (
         <>
