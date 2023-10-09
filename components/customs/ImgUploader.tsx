@@ -26,7 +26,6 @@ export default function ImgUploader({ disabled, onChange, onRemove, value }: Img
         onChange(result.info.secure_url)
     }
 
-
     if(!mounted) {
         return null
     }
