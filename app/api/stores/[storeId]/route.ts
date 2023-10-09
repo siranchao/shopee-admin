@@ -2,6 +2,13 @@ import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs";
 import prismadb from "@/lib/prismadb";
 
+/**
+ * Note: This route is only for testing purposes
+ * Current using static userId and it's for test only
+ * All Store APIs are using the same userId
+ */
+
+
 export async function PATCH(req: Request, { params }: { params: { storeId: string } }) {
     try {
         const { userId } = auth()
@@ -22,7 +29,7 @@ export async function PATCH(req: Request, { params }: { params: { storeId: strin
         const store = await prismadb.store.updateMany({
             where: {
                 id: params.storeId,
-                userId: userId
+                userId: process.env.NEXT_PUBLIC_USER_ID!
             },
             data: {
                 name
@@ -52,7 +59,7 @@ export async function DELETE(_req: Request, { params }: { params: { storeId: str
         const store = await prismadb.store.deleteMany({
             where: {
                 id: params.storeId,
-                userId: userId
+                userId: process.env.NEXT_PUBLIC_USER_ID!
             }
         })
 

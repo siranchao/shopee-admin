@@ -20,6 +20,7 @@ import ImgUploader from "@/components/customs/ImgUploader"
 
 const formSchema = z.object({
     label: z.string().min(1),
+    desc: z.string(),
     imageUrl: z.string().min(1)
 })
 
@@ -37,6 +38,7 @@ export default function BillboardForm({ initData }: FormProps) {
         resolver: zodResolver(formSchema),
         defaultValues: initData || {
             label: "",
+            desc: "",
             imageUrl: ""
         }
     })
@@ -143,6 +145,20 @@ export default function BillboardForm({ initData }: FormProps) {
                                     <FormLabel>Label</FormLabel>
                                     <FormControl>
                                         <Input placeholder="Billboard Label" disabled={loading} {...field}/>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField 
+                            control={form.control}
+                            name="desc"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Descrption</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder="Billboard Description" disabled={loading} {...field}/>
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>

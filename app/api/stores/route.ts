@@ -2,6 +2,13 @@ import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs";
 import prismadb from "@/lib/prismadb";
 
+
+/**
+ * Note: This route is only for testing purposes
+ * Current using static userId and it's for test only
+ * All Store APIs are using the same userId
+ */
+
 export async function POST(req: Request) {
 
     try {
@@ -20,7 +27,7 @@ export async function POST(req: Request) {
         const store = await prismadb.store.create({
             data: {
                 name,
-                userId
+                userId: process.env.NEXT_PUBLIC_USER_ID!
             }
         })
 

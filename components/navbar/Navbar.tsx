@@ -7,6 +7,11 @@ import { redirect } from "next/navigation";
 import prismadb from "@/lib/prismadb";
 
 
+/**
+ * Note: for sake of simplicity, only test store data can be fetched
+ * any logged in userId are currently hided, and we are using static USER_ID to fetch data
+ */
+
 export default async function Navbar() {
     
     const { userId } = auth()
@@ -14,9 +19,13 @@ export default async function Navbar() {
         redirect('/sign-in')
     }
 
+    /**
+     * Should return all stores by current user
+     * Note: for sake of simplicity, we only return stores data for testing
+     */
     const stores = await prismadb.store.findMany({
         where: {
-            userId: userId
+            userId: process.env.NEXT_PUBLIC_USER_ID
         }
     })
 

@@ -29,6 +29,7 @@ model Store {
 model Billboard {
   id        String   @id @default(uuid())
   label     String
+  desc      String   @default("")
   imageUrl  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
