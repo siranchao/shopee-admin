@@ -40,7 +40,7 @@ export async function PATCH(req: Request, { params }: { params: { storeId: strin
             return new NextResponse('Unauthorized', { status: 401 })
         }
 
-        if(Object.keys(body).length !== 7) {
+        if(Object.keys(body).length !== 8) {
             return new NextResponse('Missing required fields', { status: 400 })
         }
 

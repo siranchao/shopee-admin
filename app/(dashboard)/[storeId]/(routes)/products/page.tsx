@@ -32,6 +32,7 @@ export default async function ProductsPage({ params }: { params: { storeId: stri
         name: item.name,
         isFeatured: item.isFeatured ? "Yes" : "No",
         isArchived: item.isArchived ? "Yes" : "No",
+        isOnSale: item.isOnSale ? "Yes" : "No",
         price: formatter.format(item.price.toNumber()),
         category: item.category.name,
         color: item.color.value,

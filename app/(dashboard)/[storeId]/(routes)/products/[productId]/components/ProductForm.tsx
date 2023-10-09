@@ -27,7 +27,8 @@ const formSchema = z.object({
     categoryId: z.string().min(1),
     colorId: z.string().min(1),
     isFeatured: z.boolean().default(false).optional(),
-    isArchived: z.boolean().default(false).optional()
+    isArchived: z.boolean().default(false).optional(),
+    isOnSale: z.boolean().default(false).optional()
 })
 
 type FormValues = z.infer<typeof formSchema>
@@ -61,7 +62,8 @@ export default function ProductForm({
             categoryId: "",
             colorId: "",
             isFeatured: false,
-            isArchived: false
+            isArchived: false,
+            isOnSale: false
         }
     })
 
@@ -281,6 +283,27 @@ export default function ProductForm({
                                         <FormLabel>Featured</FormLabel>
                                         <FormDescription>
                                             This product will displayed at home page
+                                        </FormDescription>
+                                    </div>
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField 
+                            control={form.control}
+                            name="isOnSale"
+                            render={({ field }) => (
+                                <FormItem className="flex flex-row items-center space-x-3 space-y-0 rounded-md border p-4">
+                                    <FormControl>
+                                        <Checkbox 
+                                            checked={field.value}
+                                            onCheckedChange={field.onChange}
+                                        />
+                                    </FormControl>
+                                    <div className="space-y-1 leading-none">
+                                        <FormLabel>On Sale</FormLabel>
+                                        <FormDescription>
+                                            This product will have 20% off discount
                                         </FormDescription>
                                     </div>
                                 </FormItem>
