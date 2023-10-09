@@ -43,8 +43,14 @@ export function CellAction({ data }: CellActionProps) {
             await axios.delete(`/api/${params.storeId}/categories/${data.id}`)
             router.refresh()
             toast.success("Category deleted")
-        } catch(error) {
-            toast.error("Error, please remove all products using this category")
+        } catch(error: any) {
+            if(error.response?.status === 403) {
+                toast.error("You do not have permission")
+            } 
+            else {
+                toast.error("Error, please remove all products using this category")
+            }
+            
         } finally {
             setLoading(false)
             setOpen(false)

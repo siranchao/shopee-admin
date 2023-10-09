@@ -88,8 +88,14 @@ export default function ProductForm({
             router.push(`/${params.storeId}/products`)
             toast.success(toastMsg)
 
-        } catch(error) {
-            toast.error("Something went wrong")
+        } catch(error: any) {
+            if(error.response?.status === 403) {
+                toast.error("You do not have permission")
+            } 
+            else {
+                toast.error("Something went wrong")
+            }
+
         } finally {
             setLoading(false)
         }
@@ -102,8 +108,14 @@ export default function ProductForm({
             router.refresh()
             router.push(`/${params.storeId}/products`)
             toast.success("Product deleted")
-        } catch(error) {
-            toast.error("Something went wrong")
+        } catch(error: any) {
+            if(error.response?.status === 403) {
+                toast.error("You do not have permission")
+            } 
+            else {
+                toast.error("Something went wrong")
+            }
+
         } finally {
             setLoading(false)
             setOpen(false)

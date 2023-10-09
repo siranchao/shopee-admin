@@ -24,15 +24,19 @@ export async function POST(req: Request) {
             return new NextResponse('Name is required', { status: 400 })
         }
 
+        //check if user is admin
+        if(userId !== process.env.NEXT_PUBLIC_USER_ID) {
+            return new NextResponse('Unauthorized user', { status: 403 })
+        }
+
         const store = await prismadb.store.create({
             data: {
                 name,
-                userId: process.env.NEXT_PUBLIC_USER_ID!
+                userId: userId
             }
         })
 
         return new NextResponse(JSON.stringify(store), { status: 200 })
-
 
 
     } catch(error) {

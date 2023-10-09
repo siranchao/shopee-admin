@@ -64,8 +64,14 @@ export default function ColorForm({ initData }: FormProps) {
             router.push(`/${params.storeId}/colors`)
             toast.success(toastMsg)
 
-        } catch(error) {
-            toast.error("Something went wrong")
+        } catch(error: any) {
+            if(error.response?.status === 403) {
+                toast.error("You do not have permission")
+            } 
+            else {
+                toast.error("Something went wrong")
+            }
+
         } finally {
             setLoading(false)
         }
@@ -78,8 +84,14 @@ export default function ColorForm({ initData }: FormProps) {
             router.refresh()
             router.push(`/${params.storeId}/colors`)
             toast.success("Color deleted")
-        } catch(error) {
-            toast.error("Error, please remove all products using this color")
+        } catch(error: any) {
+            if(error.response?.status === 403) {
+                toast.error("You do not have permission")
+            } 
+            else {
+                toast.error("Error, please remove all products using this color")
+            }
+           
         } finally {
             setLoading(false)
             setOpen(false)

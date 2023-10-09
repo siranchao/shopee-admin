@@ -47,8 +47,14 @@ export default function SettingForm({ initData }: FormProps) {
             await axios.patch(`/api/stores/${params.storeId}`, data)
             router.refresh()
             toast.success("Store updated")
-        } catch(error) {
-            toast.error("Something went wrong")
+        } catch(error: any) {
+            if(error.response?.status === 403) {
+                toast.error("You do not have permission")
+            } 
+            else {
+                toast.error("Something went wrong")
+            }
+
         } finally {
             setLoading(false)
         }
@@ -61,8 +67,14 @@ export default function SettingForm({ initData }: FormProps) {
             router.refresh()
             router.push("/")
             toast.success("Store deleted")
-        } catch(error) {
-            toast.error("Error, make sure to remove all products and categories first")
+        } catch(error: any) {
+            if(error.response?.status === 403) {
+                toast.error("You do not have permission")
+            } 
+            else {
+                toast.error("Error, make sure to remove all products and categories first")
+            }
+            
         } finally {
             setLoading(false)
             setOpen(false)

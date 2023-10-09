@@ -26,10 +26,15 @@ export async function PATCH(req: Request, { params }: { params: { storeId: strin
             return new NextResponse('Store ID is required', { status: 400 })
         }
 
+        //check if user is admin
+        if(userId !== process.env.NEXT_PUBLIC_USER_ID) {
+            return new NextResponse('Unauthorized user', { status: 403 })
+        }
+
         const store = await prismadb.store.updateMany({
             where: {
                 id: params.storeId,
-                userId: process.env.NEXT_PUBLIC_USER_ID!
+                userId: userId
             },
             data: {
                 name
@@ -56,10 +61,15 @@ export async function DELETE(_req: Request, { params }: { params: { storeId: str
             return new NextResponse('Store ID is required', { status: 400 })
         }
 
+        //check if user is admin
+        if(userId !== process.env.NEXT_PUBLIC_USER_ID) {
+            return new NextResponse('Unauthorized user', { status: 403 })
+        }
+
         const store = await prismadb.store.deleteMany({
             where: {
                 id: params.storeId,
-                userId: process.env.NEXT_PUBLIC_USER_ID!
+                userId: userId
             }
         })
 

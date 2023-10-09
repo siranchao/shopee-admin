@@ -65,8 +65,14 @@ export default function SizeForm({ initData, categories }: FormProps) {
             router.push(`/${params.storeId}/sizes`)
             toast.success(toastMsg)
 
-        } catch(error) {
-            toast.error("Something went wrong")
+        } catch(error: any) {
+            if(error.response?.status === 403) {
+                toast.error("You do not have permission")
+            } 
+            else {
+                toast.error("Something went wrong")
+            }
+
         } finally {
             setLoading(false)
         }
@@ -79,8 +85,14 @@ export default function SizeForm({ initData, categories }: FormProps) {
             router.refresh()
             router.push(`/${params.storeId}/sizes`)
             toast.success("Size deleted")
-        } catch(error) {
-            toast.error("Error, please remove all products using this size")
+        } catch(error: any) {
+            if(error.response?.status === 403) {
+                toast.error("You do not have permission")
+            } 
+            else {
+                toast.error("Error, please remove all products using this size")
+            }
+            
         } finally {
             setLoading(false)
             setOpen(false)

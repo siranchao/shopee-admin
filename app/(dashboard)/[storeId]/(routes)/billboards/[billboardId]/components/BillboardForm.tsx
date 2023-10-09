@@ -66,8 +66,14 @@ export default function BillboardForm({ initData }: FormProps) {
             router.push(`/${params.storeId}/billboards`)
             toast.success(toastMsg)
 
-        } catch(error) {
-            toast.error("Something went wrong")
+        } catch(error: any) {
+            if(error.response?.status === 403) {
+                toast.error("You do not have permission")
+            } 
+            else {
+                toast.error("Something went wrong")
+            }
+            
         } finally {
             setLoading(false)
         }
@@ -80,8 +86,14 @@ export default function BillboardForm({ initData }: FormProps) {
             router.refresh()
             router.push(`/${params.storeId}/billboards`)
             toast.success("Billboard deleted")
-        } catch(error) {
-            toast.error("Error, please remove all categories using this billboard")
+        } catch(error: any) {
+            if(error.response?.status === 403) {
+                toast.error("You do not have permission")
+            } 
+            else {
+                toast.error("Error, please remove all categories using this billboard")
+            }
+            
         } finally {
             setLoading(false)
             setOpen(false)
