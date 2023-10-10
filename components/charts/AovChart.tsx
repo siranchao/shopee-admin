@@ -15,6 +15,13 @@ interface AovProps {
 export default function AovChart({ data }: AovProps) {
     const [mounted, setMounted] = useState(false);
 
+    const formattedData = data.map((item) => ({
+        name: item.name,
+        Aov: item.Aov.toFixed(2),
+        revenue: item.revenue.toFixed(2)
+    }))
+
+
     useEffect(() => {
         setMounted(true);
     }, [])
@@ -26,7 +33,7 @@ export default function AovChart({ data }: AovProps) {
     return (
         <>
             <ResponsiveContainer width="100%" height={400}>
-                <LineChart data={data} width={500} height={400}>
+                <LineChart data={formattedData} width={500} height={400}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis 
                         dataKey="name" 

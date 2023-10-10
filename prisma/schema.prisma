@@ -23,7 +23,7 @@ model Store {
   sizes      Size[]      @relation("StoreToSize")
   colors     Color[]     @relation("StoreToColor")
   products   Product[]   @relation("StoreToProduct")
-  orders     Order[]     @relation("StoreToOrder")
+  orders     Order[]
 }
 
 model Billboard {
@@ -144,7 +144,7 @@ model Order {
   orderItems OrderItem[]
 
   storeId String
-  store   Store  @relation("StoreToOrder", fields: [storeId], references: [id])
+  store   Store  @relation(fields: [storeId], references: [id])
 
   @@index([storeId])
 }

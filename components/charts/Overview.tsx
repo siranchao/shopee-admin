@@ -14,6 +14,12 @@ interface OverviewProps {
 
 export default function Overview({ data }: OverviewProps) {
     const [mounted, setMounted] = useState(false);
+    
+    const formattedData = data.map((item) => ({
+        name: item.name,
+        revenue: item.revenue.toFixed(2),
+        order_count: item.order_count
+    }))
 
     useEffect(() => {
         setMounted(true);
@@ -25,8 +31,8 @@ export default function Overview({ data }: OverviewProps) {
 
     return (
         <>
-            <ResponsiveContainer width="100%" height={350}>
-                <BarChart data={data}>
+            <ResponsiveContainer width="100%" height={400}>
+                <BarChart data={formattedData}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis 
                         dataKey="name" 

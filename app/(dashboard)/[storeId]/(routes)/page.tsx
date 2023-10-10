@@ -33,8 +33,8 @@ export default async function DashboardPage({ params }: { params: { storeId: str
         }
     })
     
-    const lastMonth = graphRevenue[new Date().getMonth()].revenue
-    const lastLastMonth = graphRevenue[new Date().getMonth() - 1].revenue
+    const lastMonth = graphRevenue[new Date().getMonth() - 1].revenue
+    const lastLastMonth = graphRevenue[new Date().getMonth() - 2].revenue
 
     return (
         <>
@@ -127,7 +127,7 @@ export default async function DashboardPage({ params }: { params: { storeId: str
                         <Card className="flex flex-col justify-between">
                             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                                 <CardTitle  className="text-sm font-medium">
-                                    Average Order Value(AOV)
+                                    Average Order Value (AOV)
                                 </CardTitle>
 
                                 <CreditCard className="h-4 w-4 text-muted-foreground" />
