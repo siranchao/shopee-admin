@@ -2,6 +2,13 @@ import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs";
 import prismadb from "@/lib/prismadb";
 
+/**
+ * Note: This route is only for testing purposes
+ * Current using static userId and it's for test only
+ * All Store APIs are using the same userId
+ */
+
+
 export async function PATCH(req: Request, { params }: { params: { storeId: string } }) {
     try {
         const { userId } = auth()
@@ -17,6 +24,11 @@ export async function PATCH(req: Request, { params }: { params: { storeId: strin
 
         if(!params.storeId) {
             return new NextResponse('Store ID is required', { status: 400 })
+        }
+
+        //check if user is admin
+        if(userId !== process.env.NEXT_PUBLIC_USER_ID) {
+            return new NextResponse('Unauthorized user', { status: 403 })
         }
 
         const store = await prismadb.store.updateMany({
@@ -47,6 +59,11 @@ export async function DELETE(_req: Request, { params }: { params: { storeId: str
 
         if(!params.storeId) {
             return new NextResponse('Store ID is required', { status: 400 })
+        }
+
+        //check if user is admin
+        if(userId !== process.env.NEXT_PUBLIC_USER_ID) {
+            return new NextResponse('Unauthorized user', { status: 403 })
         }
 
         const store = await prismadb.store.deleteMany({

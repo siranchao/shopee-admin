@@ -43,8 +43,14 @@ export function CellAction({ data }: CellActionProps) {
             await axios.delete(`/api/${params.storeId}/billboards/${data.id}`)
             router.refresh()
             toast.success("Billboard deleted")
-        } catch(error) {
-            toast.error("Error, please remove all categories using this billboard")
+        } catch(error: any) {
+            if(error.response?.status === 403) {
+                toast.error("You do not have permission")
+            } 
+            else {
+                toast.error("Error, please remove all categories using this billboard")
+            }
+            
         } finally {
             setLoading(false)
             setOpen(false)

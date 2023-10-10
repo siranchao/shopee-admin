@@ -43,8 +43,14 @@ export function CellAction({ data }: CellActionProps) {
             await axios.delete(`/api/${params.storeId}/sizes/${data.id}`)
             router.refresh()
             toast.success("Size deleted")
-        } catch(error) {
-            toast.error("Error, please remove all products using this size")
+        } catch(error: any) {
+            if(error.response?.status === 403) {
+                toast.error("You do not have permission")
+            } 
+            else {
+                toast.error("Error, please remove all products using this size")
+            }
+           
         } finally {
             setLoading(false)
             setOpen(false)

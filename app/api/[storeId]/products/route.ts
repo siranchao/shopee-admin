@@ -13,7 +13,7 @@ export async function POST(req: Request, { params }: { params: { storeId: string
             return new NextResponse('Unauthorized', { status: 401 })
         }
 
-        if(Object.keys(body).length !== 7) {
+        if(Object.keys(body).length !== 8) {
             return new NextResponse('Missing required fields', { status: 400 })
         }
 
@@ -66,6 +66,7 @@ export async function GET(req: Request, { params }: { params: { storeId: string 
         const categoryId = searchParams.get('categoryId') || ""
         const colorId = searchParams.get('colorId') || ""
         const isFeatured = searchParams.get('isFeatured') === "true"
+        const isOnSale = searchParams.get('isOnSale') === "true"
 
         if(!params.storeId) {
             return new NextResponse('Store ID is required', { status: 400 })
@@ -77,7 +78,8 @@ export async function GET(req: Request, { params }: { params: { storeId: string 
                 categoryId: categoryId ? categoryId : undefined,
                 colorId: colorId ? colorId : undefined,
                 isFeatured: isFeatured ? true : undefined,
-                isArchived: false
+                isArchived: false,
+                isOnSale: isOnSale ? true : undefined
             },
             include: {
                 images: true,

@@ -30,7 +30,7 @@ export async function PATCH(req: Request, { params }: { params: { storeId: strin
     try {
         const { userId } = auth()
         const body = await req.json()
-        const { label, imageUrl } = body
+        const { label, desc, imageUrl } = body
 
         if(!userId) {
             return new NextResponse('Unauthorized', { status: 401 })
@@ -66,6 +66,7 @@ export async function PATCH(req: Request, { params }: { params: { storeId: strin
             },
             data: {
                 label,
+                desc,
                 imageUrl
             }
         })

@@ -20,6 +20,7 @@ import ImgUploader from "@/components/customs/ImgUploader"
 
 const formSchema = z.object({
     label: z.string().min(1),
+    desc: z.string(),
     imageUrl: z.string().min(1)
 })
 
@@ -37,6 +38,7 @@ export default function BillboardForm({ initData }: FormProps) {
         resolver: zodResolver(formSchema),
         defaultValues: initData || {
             label: "",
+            desc: "",
             imageUrl: ""
         }
     })
@@ -64,8 +66,14 @@ export default function BillboardForm({ initData }: FormProps) {
             router.push(`/${params.storeId}/billboards`)
             toast.success(toastMsg)
 
-        } catch(error) {
-            toast.error("Something went wrong")
+        } catch(error: any) {
+            if(error.response?.status === 403) {
+                toast.error("You do not have permission")
+            } 
+            else {
+                toast.error("Something went wrong")
+            }
+            
         } finally {
             setLoading(false)
         }
@@ -78,8 +86,14 @@ export default function BillboardForm({ initData }: FormProps) {
             router.refresh()
             router.push(`/${params.storeId}/billboards`)
             toast.success("Billboard deleted")
-        } catch(error) {
-            toast.error("Error, please remove all categories using this billboard")
+        } catch(error: any) {
+            if(error.response?.status === 403) {
+                toast.error("You do not have permission")
+            } 
+            else {
+                toast.error("Error, please remove all categories using this billboard")
+            }
+            
         } finally {
             setLoading(false)
             setOpen(false)
@@ -143,6 +157,20 @@ export default function BillboardForm({ initData }: FormProps) {
                                     <FormLabel>Label</FormLabel>
                                     <FormControl>
                                         <Input placeholder="Billboard Label" disabled={loading} {...field}/>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField 
+                            control={form.control}
+                            name="desc"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Descrption</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder="Billboard Description" disabled={loading} {...field}/>
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>

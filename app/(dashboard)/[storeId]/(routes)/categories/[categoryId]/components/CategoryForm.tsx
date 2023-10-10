@@ -67,8 +67,14 @@ export default function CategoryForm({ initData, billboards }: FormProps) {
             router.push(`/${params.storeId}/categories`)
             toast.success(toastMsg)
 
-        } catch(error) {
-            toast.error("Something went wrong")
+        } catch(error: any) {
+            if(error.response?.status === 403) {
+                toast.error("You do not have permission")
+            } 
+            else {
+                toast.error("Something went wrong")
+            }
+
         } finally {
             setLoading(false)
         }
@@ -81,8 +87,14 @@ export default function CategoryForm({ initData, billboards }: FormProps) {
             router.refresh()
             router.push(`/${params.storeId}/categories`)
             toast.success("Category deleted")
-        } catch(error) {
-            toast.error("Error, please remove all products using this category")
+        } catch(error: any) {
+            if(error.response?.status === 403) {
+                toast.error("You do not have permission")
+            } 
+            else {
+                toast.error("Error, please remove all products using this category")
+            }
+            
         } finally {
             setLoading(false)
             setOpen(false)

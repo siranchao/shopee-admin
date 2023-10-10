@@ -2,7 +2,6 @@
 
 import { OrderColumn } from "./columns"
 import { Button } from "@/components/ui/button"
-import toast from "react-hot-toast"
 import { useState } from "react"
 
 import { DropdownMenu, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
@@ -16,11 +15,6 @@ interface CellActionProps {
 
 export function CellAction({ data }: CellActionProps) {
     const [open, setOpen] = useState<boolean>(false)
-
-    const onCopy = (id: string) => {
-        navigator.clipboard.writeText(id)
-        toast.success("Order ID copied")
-    }
 
     return (
         <>

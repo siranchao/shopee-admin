@@ -2,9 +2,8 @@ import Heading from "@/components/customs/Heading"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { formatter } from "@/lib/utils"
-import { CreditCard, DollarSign, Package } from "lucide-react"
-import { getTotalRevenue } from "@/actions/get-total-revenue"
-import { getSalesCount } from "@/actions/get-sales-count"
+import { CreditCard, DollarSign, Package, TrendingUp, ShoppingCart } from "lucide-react"
+import { getStats } from "@/actions/get-stats"
 import { getStockCount } from "@/actions/get-stock-count"
 import { getGraphRevenue } from "@/actions/get-month-revenue"
 import { getSalesPercentage } from "@/actions/get-sales-percentage"
@@ -12,11 +11,16 @@ import Overview from "@/components/charts/Overview"
 import Piechart from "@/components/charts/PieChart"
 import AovChart from "@/components/charts/AovChart"
 
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+    title: 'Admin | Dashboard',
+    description: 'Shopee Admin - Store Dashboard',
+}
 
 export default async function DashboardPage({ params }: { params: { storeId: string } }) {
 
-    const totalRevenue = await getTotalRevenue(params.storeId)
-    const salesCount = await getSalesCount(params.storeId)
+    const { totalRevenue, salesCount, aov } = await getStats(params.storeId)
     const productCount = await getStockCount(params.storeId)
     const graphRevenue = await getGraphRevenue(params.storeId)
     const salesPercentage = await getSalesPercentage(params.storeId)
@@ -28,6 +32,9 @@ export default async function DashboardPage({ params }: { params: { storeId: str
             revenue: data.revenue
         }
     })
+    
+    const lastMonth = graphRevenue[new Date().getMonth() - 1].revenue
+    const lastLastMonth = graphRevenue[new Date().getMonth() - 2].revenue
 
     return (
         <>
@@ -56,10 +63,26 @@ export default async function DashboardPage({ params }: { params: { storeId: str
                         <Card className="flex flex-col justify-between">
                             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                                 <CardTitle  className="text-sm font-medium">
-                                    Orders Sold
+                                    Products for Sale
                                 </CardTitle>
 
-                                <CreditCard className="h-4 w-4 text-muted-foreground" />
+                                <Package className="h-4 w-4 text-muted-foreground" />
+                            </CardHeader>
+                            
+                            <CardContent>
+                                <div className="font-bold text-lg overflow-hidden sm:text-2xl">
+                                    {productCount}
+                                </div>
+                            </CardContent>
+                        </Card>
+
+                        <Card className="flex flex-col justify-between">
+                            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                                <CardTitle  className="text-sm font-medium">
+                                    Orders Sold in 30 Days
+                                </CardTitle>
+
+                                <ShoppingCart className="h-4 w-4 text-muted-foreground over" />
                             </CardHeader>
                             
                             <CardContent>
@@ -72,15 +95,47 @@ export default async function DashboardPage({ params }: { params: { storeId: str
                         <Card className="flex flex-col justify-between">
                             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                                 <CardTitle  className="text-sm font-medium">
-                                    Products for Sale
+                                    Revenue of Last Month
                                 </CardTitle>
 
-                                <Package className="h-4 w-4 text-muted-foreground" />
+                                <DollarSign className="h-4 w-4 text-muted-foreground" />
                             </CardHeader>
                             
                             <CardContent>
                                 <div className="font-bold text-lg overflow-hidden sm:text-2xl">
-                                    {productCount}
+                                    {formatter.format(lastMonth)}
+                                </div>
+                            </CardContent>
+                        </Card>
+
+                        <Card className="flex flex-col justify-between">
+                            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                                <CardTitle  className="text-sm font-medium">
+                                    MoM Revenue Growth
+                                </CardTitle>
+
+                                <TrendingUp className="h-4 w-4 text-muted-foreground" />
+                            </CardHeader>
+                            
+                            <CardContent>
+                                <div className="font-bold text-lg overflow-hidden sm:text-2xl">
+                                    {`${((lastMonth-lastLastMonth) / lastLastMonth * 100).toFixed(2)}%`}
+                                </div>
+                            </CardContent>
+                        </Card>
+
+                        <Card className="flex flex-col justify-between">
+                            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                                <CardTitle  className="text-sm font-medium">
+                                    Average Order Value (AOV)
+                                </CardTitle>
+
+                                <CreditCard className="h-4 w-4 text-muted-foreground" />
+                            </CardHeader>
+                            
+                            <CardContent>
+                                <div className="font-bold text-lg overflow-hidden sm:text-2xl">
+                                    {formatter.format(aov)}
                                 </div>
                             </CardContent>
                         </Card>
@@ -109,7 +164,7 @@ export default async function DashboardPage({ params }: { params: { storeId: str
                         <Card className="md:col-span-2">
                             <CardHeader>
                                 <CardTitle>Average Order Value (AOV)</CardTitle>  
-                                <CardDescription>AOV growth vs. revenue growth</CardDescription>                           
+                                <CardDescription>Tracking monthly AOV vs. Revenue</CardDescription>                           
                             </CardHeader>
                             <CardContent className="p-4">
                                 <AovChart data={aovData}/>

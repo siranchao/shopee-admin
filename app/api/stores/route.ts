@@ -2,6 +2,13 @@ import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs";
 import prismadb from "@/lib/prismadb";
 
+
+/**
+ * Note: This route is only for testing purposes
+ * Current using static userId and it's for test only
+ * All Store APIs are using the same userId
+ */
+
 export async function POST(req: Request) {
 
     try {
@@ -17,15 +24,19 @@ export async function POST(req: Request) {
             return new NextResponse('Name is required', { status: 400 })
         }
 
+        //check if user is admin
+        if(userId !== process.env.NEXT_PUBLIC_USER_ID) {
+            return new NextResponse('Unauthorized user', { status: 403 })
+        }
+
         const store = await prismadb.store.create({
             data: {
                 name,
-                userId
+                userId: userId
             }
         })
 
         return new NextResponse(JSON.stringify(store), { status: 200 })
-
 
 
     } catch(error) {

@@ -1,4 +1,3 @@
-
 import prismadb from "@/lib/prismadb"
 import { format } from "date-fns"
 import { formatter } from "@/lib/utils"
@@ -6,19 +5,19 @@ import { formatter } from "@/lib/utils"
 import OrderClient from "./components/Client"
 import { OrderColumn } from "./components/columns"
 
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+    title: 'Admin | Orders',
+    description: 'Shopee Admin - Mangage Orders',
+}
+
 
 export default async function OrdersPage({ params }: { params: { storeId: string } }) {
 
-    // Orders without address and phone will not be shown
     const orders = await prismadb.order.findMany({
         where: {
             storeId: params.storeId,
-            // phone: {
-            //     not: ""
-            // },
-            // address: {
-            //     not: ""
-            // }
         },
         include: {
             orderItems: {
