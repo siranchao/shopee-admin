@@ -21,7 +21,7 @@ The project was built with the main coding stack: TypeScript + React + Next.js +
 
 ## :pencil: Project Details and Demo
 
-For more details, product features or demo video of Shoppe-Admin, please visit my personal site at [https://www.siran.dev/projects/shopee](https://github.com/siran-ecommerce/shopee-admin)
+For more details, product features or demo video, please visit my personal site at [https://www.siran.dev/projects/shopee](https://www.siran.dev/projects/shopee)
 
 ## Getting Started
 
