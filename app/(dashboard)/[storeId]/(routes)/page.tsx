@@ -7,9 +7,9 @@ import { getStats } from "@/actions/get-stats"
 import { getStockCount } from "@/actions/get-stock-count"
 import { getGraphRevenue } from "@/actions/get-month-revenue"
 import { getSalesPercentage } from "@/actions/get-sales-percentage"
-import Overview from "@/components/charts/Overview"
-import Piechart from "@/components/charts/PieChart"
-import AovChart from "@/components/charts/AovChart"
+import Overview from "@/app/(dashboard)/[storeId]/(routes)/(dashboard)/components/charts/Overview"
+import Piechart from "@/app/(dashboard)/[storeId]/(routes)/(dashboard)/components/charts/PieChart"
+import AovChart from "@/app/(dashboard)/[storeId]/(routes)/(dashboard)/components/charts/AovChart"
 
 import type { Metadata } from 'next'
 
@@ -168,6 +168,30 @@ export default async function DashboardPage({ params }: { params: { storeId: str
                             </CardHeader>
                             <CardContent className="p-4">
                                 <AovChart data={aovData}/>
+                            </CardContent>
+                        </Card>
+
+                        <Card className="md:col-span-2">
+                            <CardHeader>
+                                <CardTitle>My Canlender</CardTitle>  
+                                <CardDescription>Tracking monthly AOV vs. Revenue</CardDescription>                           
+                            </CardHeader>
+                            <CardContent className="p-4">
+                                <div>
+                                    TODO
+                                </div>
+                            </CardContent>
+                        </Card>
+
+                        <Card className="md:col-span-2">
+                            <CardHeader>
+                                <CardTitle>Best Sellers</CardTitle>  
+                                <CardDescription>Best selling products in last 180 days</CardDescription>                           
+                            </CardHeader>
+                            <CardContent className="p-4">
+                                <div>
+                                    TODO
+                                </div>
                             </CardContent>
                         </Card>
                     </div>
