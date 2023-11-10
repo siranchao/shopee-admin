@@ -1,4 +1,5 @@
 import Heading from "@/components/customs/Heading"
+import Link from "next/link"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { formatter } from "@/lib/utils"
@@ -7,9 +8,12 @@ import { getStats } from "@/actions/get-stats"
 import { getStockCount } from "@/actions/get-stock-count"
 import { getGraphRevenue } from "@/actions/get-month-revenue"
 import { getSalesPercentage } from "@/actions/get-sales-percentage"
+import { getSalesByProduct } from "@/actions/get-sales-products"
 import Overview from "@/app/(dashboard)/[storeId]/(routes)/(dashboard)/components/charts/Overview"
 import Piechart from "@/app/(dashboard)/[storeId]/(routes)/(dashboard)/components/charts/PieChart"
 import AovChart from "@/app/(dashboard)/[storeId]/(routes)/(dashboard)/components/charts/AovChart"
+import { BestSellerTable } from "./(dashboard)/components/bestSeller/DataTable"
+import { columns } from "./(dashboard)/components/bestSeller/Columns"
 
 import type { Metadata } from 'next'
 
@@ -24,6 +28,7 @@ export default async function DashboardPage({ params }: { params: { storeId: str
     const productCount = await getStockCount(params.storeId)
     const graphRevenue = await getGraphRevenue(params.storeId)
     const salesPercentage = await getSalesPercentage(params.storeId)
+    const bestSeller = await getSalesByProduct(params.storeId)
 
     const aovData = graphRevenue.filter(data => data.order_count > 0).map(data => {
         return {
@@ -186,11 +191,11 @@ export default async function DashboardPage({ params }: { params: { storeId: str
                         <Card className="md:col-span-2">
                             <CardHeader>
                                 <CardTitle>Best Sellers</CardTitle>  
-                                <CardDescription>Best selling products in last 180 days</CardDescription>                           
+                                <CardDescription>Best selling products in last 180 days <Link href={`/${params.storeId}/products`} className="ml-4 underline text-blue-500">View All Products</Link></CardDescription>                           
                             </CardHeader>
                             <CardContent className="p-4">
                                 <div>
-                                    TODO
+                                    <BestSellerTable columns={columns} data={bestSeller}/>
                                 </div>
                             </CardContent>
                         </Card>
