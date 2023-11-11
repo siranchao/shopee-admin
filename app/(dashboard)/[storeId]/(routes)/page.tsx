@@ -14,6 +14,7 @@ import Piechart from "@/app/(dashboard)/[storeId]/(routes)/(dashboard)/component
 import AovChart from "@/app/(dashboard)/[storeId]/(routes)/(dashboard)/components/charts/AovChart"
 import { BestSellerTable } from "./(dashboard)/components/bestSeller/DataTable"
 import { columns } from "./(dashboard)/components/bestSeller/Columns"
+import { CalendarPanel } from "./(dashboard)/components/calendar/Calendar"
 
 import type { Metadata } from 'next'
 
@@ -178,13 +179,11 @@ export default async function DashboardPage({ params }: { params: { storeId: str
 
                         <Card className="md:col-span-2">
                             <CardHeader>
-                                <CardTitle>My Canlender</CardTitle>  
-                                <CardDescription>Tracking monthly AOV vs. Revenue</CardDescription>                           
+                                <CardTitle>Calendar</CardTitle>  
+                                <CardDescription>Tracking your event list</CardDescription>                           
                             </CardHeader>
                             <CardContent className="p-4">
-                                <div>
-                                    TODO
-                                </div>
+                                <CalendarPanel storeId={params.storeId}/>
                             </CardContent>
                         </Card>
 

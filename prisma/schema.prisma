@@ -24,6 +24,7 @@ model Store {
   colors     Color[]     @relation("StoreToColor")
   products   Product[]   @relation("StoreToProduct")
   orders     Order[]
+  events     Event[]
 }
 
 model Billboard {
@@ -162,4 +163,17 @@ model OrderItem {
 
   @@index([orderId])
   @@index([productId])
+}
+
+model Event {
+  id       String   @id @default(uuid())
+  name     String
+  date     DateTime
+  desc     String   @default("")
+  priority Int      @default(3)
+
+  storeId String
+  store   Store  @relation(fields: [storeId], references: [id])
+
+  @@index([storeId])
 }
