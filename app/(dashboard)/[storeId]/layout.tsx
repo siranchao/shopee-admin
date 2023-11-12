@@ -2,7 +2,7 @@ import prismadb from "@/lib/prismadb"
 import { auth } from "@clerk/nextjs"
 import { redirect } from "next/navigation"
 import Navbar from "@/components/navbar/Navbar"
-
+import Footer from '@/components/navbar/Footer'
 /**
  * Note: for sake of simplicity, only test store data can be fetched
  * any logged in userId are currently hided, and we are using static USER_ID to fetch data
@@ -34,9 +34,10 @@ export default async function DashboardLayout({ children, params }:
     return (
         <>
             <Navbar />
-            <div>
+            <div className="min-h-screen">
                 {children}
             </div>
+            <Footer />
         </>
     )
 }
