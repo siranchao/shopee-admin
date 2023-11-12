@@ -6,8 +6,8 @@ import { Button } from "../ui/button"
 interface AlertModalProps {
     isOpen: boolean
     onClose: () => void
-    onConfirm: () => void
-    loading: boolean
+    onConfirm?: () => void
+    loading?: boolean
 }
 
 export default function AlertModal({ isOpen, onClose, onConfirm, loading }: AlertModalProps) {

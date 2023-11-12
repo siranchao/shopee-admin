@@ -179,6 +179,9 @@ export default function SizeForm({ initData, categories }: FormProps) {
                     <Button disabled={loading} type="submit" className="ml-auto">
                         {btnAction}
                     </Button>
+                    <Button disabled={loading} type="button" className="w-28 ml-4 font-semibold text-gray-800 sm:ml-6" variant="outline" onClick={() => router.back()}>
+                        Back
+                    </Button>
                 </form>
             </Form>
 
