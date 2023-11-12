@@ -2,6 +2,19 @@ import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs";
 import prismadb from "@/lib/prismadb";
 
+const convertPriority = (priority: number) => {
+    switch (priority) {
+        case 1:
+            return "Urgent"
+        case 2:
+            return "Important"
+        case 3:
+            return "Normal"
+        default:
+            return ""
+    }
+}
+
 export async function POST(req: Request, { params }: { params: { storeId: string } }) {
 
     try {
@@ -32,7 +45,7 @@ export async function POST(req: Request, { params }: { params: { storeId: string
             return new NextResponse('Unauthorized action', { status: 403 })
         }
 
-        const event = await prismadb.event.create({
+        await prismadb.event.create({
             data: {
                 name,
                 date,
@@ -42,14 +55,38 @@ export async function POST(req: Request, { params }: { params: { storeId: string
             }
         })
 
-        return new NextResponse(JSON.stringify(event), { status: 201 })
+        const events = await prismadb.event.findMany({
+            where: {
+                storeId: params.storeId,
+                date: {
+                    gte: new Date()
+                }
+            },
+            orderBy: {
+                date: 'asc'
+            }
+        })
+
+        const formattedList = events.map((item: any) => ({
+            id: item.id,
+            name: item.name,
+            desc: item.desc,
+            priority: convertPriority(item.priority),
+            finished: item.finished,
+            date: new Date(item.date).toLocaleDateString("en-US", {
+                month: "2-digit",
+                day: "2-digit",
+                year: "2-digit"
+            })
+        }))
+
+        return new NextResponse(JSON.stringify(formattedList), { status: 201 })
 
     } catch(error) {
         console.log('[Event_POST]' + error);
         return new NextResponse('Internal error', { status: 500 })
     }
 }
-
 
 
 export async function GET(_req: Request, { params }: { params: { storeId: string } }) {
@@ -70,7 +107,20 @@ export async function GET(_req: Request, { params }: { params: { storeId: string
             }
         })
 
-        return new NextResponse(JSON.stringify(events), { status: 200 })
+        const formattedList = events.map((item: any) => ({
+            id: item.id,
+            name: item.name,
+            desc: item.desc,
+            priority: convertPriority(item.priority),
+            finished: item.finished,
+            date: new Date(item.date).toLocaleDateString("en-US", {
+                month: "2-digit",
+                day: "2-digit",
+                year: "2-digit"
+            })
+        }))
+
+        return new NextResponse(JSON.stringify(formattedList), { status: 200 })
 
     } catch(error) {
         console.log('[Events_GET]' + error);

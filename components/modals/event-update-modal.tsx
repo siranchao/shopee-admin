@@ -12,11 +12,12 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import { EventListContext } from "@/app/(dashboard)/[storeId]/(routes)/(dashboard)/components/calendar/Calendar"
+import { EventColumn } from "@/app/(dashboard)/[storeId]/(routes)/(dashboard)/components/calendar/eventTable/Columns"
 
-interface EventModalProps {
+interface EventUpdateModalProps {
     isOpen: boolean
     storeId: string
-    date: Date | undefined
+    event: EventColumn
     onClose: () => void
 }
 
@@ -34,38 +35,32 @@ const PRIORITY = [
     {name: "Urgent", value: '1'},
 ]
 
-const isValidDate = (date: Date | undefined) => {
-    if(!date) {
-        return false
-    }
-    return date > new Date()
-}
-
-export default function EventModal({ isOpen, storeId, date, onClose }: EventModalProps) {
+export default function EventUpdateModal({ isOpen, storeId, event, onClose }: EventUpdateModalProps) {
     const [mounted, setMounted] = useState(false)
     const [loading, setLoading] = useState<boolean>(false)
     const { setEvents } = useContext(EventListContext)
 
+
     const form = useForm<FormValues>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            name: "",
-            description: "",
-            priority: "3"
+            name: event.name,
+            description: event.desc,
+            priority: PRIORITY.find(item => item.name === event.priority)?.value
         }
     })
 
     const onSubmit = async(data: FormValues) => {
         try {
             setLoading(true)
-            const uploadData = {
-                ...data,
+            const res = await axios.patch(`/api/${storeId}/events/${event.id}`, {
+                name: data.name,
+                desc: data.description,
                 priority: parseInt(data.priority),
-                date: date,
-            }
-            const res = await axios.post(`/api/${storeId}/events`, uploadData)
-            if(res.status === 201) {
-                toast.success("New event created")
+            })
+
+            if(res.status === 200) {
+                toast.success("Event updated")
                 setEvents(res.data)
             }
             exit()
@@ -98,8 +93,8 @@ export default function EventModal({ isOpen, storeId, date, onClose }: EventModa
     return (
         <>
             <Modal
-                title="New Event"
-                desc={isValidDate(date) ? `Create an event on: ${date?.toLocaleDateString()}` : `Please select a future date!`}
+                title={`Update Event on ${event.date}`}
+                desc=""
                 isOpen={isOpen}
                 onClose={exit}
             >
@@ -108,7 +103,7 @@ export default function EventModal({ isOpen, storeId, date, onClose }: EventModa
                             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full">
                                 <div className="flex flex-col gap-4">
                                     <FormField 
-                                        disabled={!isValidDate(date)}
+                                        disabled={event.finished}
                                         control={form.control}
                                         name="name"
                                         render={({ field }) => (
@@ -123,13 +118,14 @@ export default function EventModal({ isOpen, storeId, date, onClose }: EventModa
                                     />
 
                                     <FormField 
+                                        disabled={event.finished}
                                         control={form.control}
                                         name="priority"
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormLabel>Priority</FormLabel>
                                                 <Select 
-                                                    disabled={loading || !isValidDate(date)} 
+                                                    disabled={loading || event.finished} 
                                                     onValueChange={field.onChange} 
                                                     value={field.value} 
                                                     defaultValue={field.value}
@@ -156,7 +152,7 @@ export default function EventModal({ isOpen, storeId, date, onClose }: EventModa
                                     />
 
                                     <FormField 
-                                        disabled={!isValidDate(date)}
+                                        disabled={event.finished}
                                         control={form.control}
                                         name="description"
                                         render={({ field }) => (
@@ -177,8 +173,8 @@ export default function EventModal({ isOpen, storeId, date, onClose }: EventModa
                                 </div>
 
                                 <div className="pt-6 space-x-2 flex items-center justify-end w-full">
-                                    <Button variant="default" disabled={loading || !isValidDate(date)} className="w-1/4">
-                                        Create
+                                    <Button variant="default" disabled={loading || event.finished} className="w-1/4">
+                                        Update
                                     </Button>
                                 </div>
                             </form>

@@ -8,6 +8,7 @@ export type EventColumn = {
   date: string
   desc: string
   priority: string
+  finished: boolean
 }
 
 export const columns: ColumnDef<EventColumn>[] = [

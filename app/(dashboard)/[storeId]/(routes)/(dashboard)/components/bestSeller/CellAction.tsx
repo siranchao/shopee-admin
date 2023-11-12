@@ -51,12 +51,12 @@ export function CellAction({ data }: CellActionProps) {
                     <DropdownMenuSeparator />
                     <DropdownMenuItem className="my-1 hover:font-semibold" onClick={() => {router.push(`/${params.storeId}/products/${data.id}`)}}>
                         <Edit className="mr-2 h-4 w-4" />
-                        Product Info
+                        View product
                     </DropdownMenuItem>
 
                     <DropdownMenuItem className="my-1 hover:font-semibold" onClick={() => onCopy(data.name)}>
                         <Copy className="mr-2 h-4 w-4" />
-                        Copy Name
+                        Copy name
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>

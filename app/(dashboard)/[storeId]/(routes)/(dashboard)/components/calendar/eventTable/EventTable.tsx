@@ -25,7 +25,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
-  data: TData[]
+  data: any
 }
 
 function EventTable<TData, TValue>({
@@ -51,12 +51,6 @@ function EventTable<TData, TValue>({
         }
     })
 
-    const tailwindStyles = (str: string) => {
-        if(str === "Urgent") {
-            return "text-red-600"
-        }
-    }
-
     return (
         <>
             <div>
@@ -81,19 +75,21 @@ function EventTable<TData, TValue>({
                     </TableHeader>
                     <TableBody>
                         {table.getRowModel().rows?.length ? (
-                            table.getRowModel().rows.map((row) => (
-                            <TableRow
-                                key={row.id}
-                                data-state={row.getIsSelected() && "selected"}
-                                className={cn("line-through", tailwindStyles(row.getValue("priority")))}
-                            >
-                                {row.getVisibleCells().map((cell) => (
-                                <TableCell key={cell.id}>
-                                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                </TableCell>
-                                ))}
-                            </TableRow>
-                            ))
+                            table.getRowModel().rows.map((row) => {
+                                const finished = data[row.index].finished
+                                return (
+                                    <TableRow
+                                        key={row.id}
+                                        data-state={row.getIsSelected() && "selected"}
+                                        className={`${row.getValue("priority") === "Urgent" && "text-red-600"} ${finished && "line-through"}`}
+                                    >
+                                        {row.getVisibleCells().map((cell) => (
+                                        <TableCell key={cell.id}>
+                                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                        </TableCell>
+                                        ))}
+                                    </TableRow>)
+                            })
                         ) : (
                             <TableRow>
                                 <TableCell colSpan={columns.length} className="h-24 text-center">
@@ -104,25 +100,29 @@ function EventTable<TData, TValue>({
                     </TableBody>
                 </Table>
             </div>
+            
+            { data.length > 5 && (
+                <div className="flex items-center justify-end space-x-2 py-2">
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setPage(prev => prev - 1)}
+                        disabled={page === 0}
+                    >
+                        <ChevronLeft className="h-3 w-3" />
+                    </Button>
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setPage(prev => prev + 1)}
+                        disabled={page === Math.ceil(data.length/5) - 1}
+                    >
+                        <ChevronRight className="h-3 w-3" />
+                    </Button>
+                </div>
+                )
+            }
 
-            <div className="flex items-center justify-end space-x-2 py-2">
-                <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => setPage(prev => prev - 1)}
-                    disabled={page === 0}
-                >
-                    <ChevronLeft className="h-3 w-3" />
-                </Button>
-                <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => setPage(prev => prev + 1)}
-                    disabled={page === Math.ceil(data.length/5) - 1}
-                >
-                    <ChevronRight className="h-3 w-3" />
-                </Button>
-            </div>
         </>
     )
 }
