@@ -1,9 +1,8 @@
-import Heading from "@/components/customs/Heading"
 import Link from "next/link"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { formatter } from "@/lib/utils"
-import { CreditCard, DollarSign, Package, TrendingUp, ShoppingCart } from "lucide-react"
+import { CreditCard, DollarSign, Package, TrendingUp, ShoppingCart, Target } from "lucide-react"
 import { getStats } from "@/actions/get-stats"
 import { getStockCount } from "@/actions/get-stock-count"
 import { getGraphRevenue } from "@/actions/get-month-revenue"
@@ -46,7 +45,13 @@ export default async function DashboardPage({ params }: { params: { storeId: str
         <>
             <div className="flex-col">
                 <div className="flex-1 space-y-4 p-8 pt-6">
-                    <Heading title="Dashboard" desc="Overview of your store" />                   
+                    <div>
+                        <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
+                        <div className="flex items-center space-x-4">
+                            <p className="text-sm text-muted-foreground">Overview of your store</p>
+                            <Link href="https://shopee-store-psi.vercel.app" target="_blank" className="text-sm underline text-blue-500">Go to Store</Link>
+                        </div>
+                    </div>                
                     <Separator />
 
                     <div className="grid gap-4 grid-cols-3">
