@@ -37,7 +37,7 @@ export default function Footer() {
 
     return (
         <>
-            <footer className="flex flex-col text-back-100 mt-8 border-t border-gray-100 bg-gray-200">
+            <footer className="flex flex-col text-back-100 mt-16 border-t">
                 <div className="flex max-md:flex-col flex-wrap justify-between gap-4 sm:px-16 px-4 py-10">
 
                     <div className="flex flex-col justify-start items-start gap-4 max-md:hidden md:w-1/3 lg:flex-1">
@@ -57,7 +57,7 @@ export default function Footer() {
                     </div>
                 </div>
 
-                <Separator className="w-11/12 m-auto h-[1px] bg-gray-300 "/>
+                <Separator className="w-11/12 m-auto h-[1px] border-t"/>
 
                 <div className="flex justify-between sm:px-16 px-6 py-10 ">
                         <div className="flex-1 flex flex-col lg:flex-row gap-2">
