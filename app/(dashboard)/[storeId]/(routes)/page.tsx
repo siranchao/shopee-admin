@@ -2,7 +2,7 @@ import Link from "next/link"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { formatter } from "@/lib/utils"
-import { CreditCard, DollarSign, Package, TrendingUp, ShoppingCart, Target } from "lucide-react"
+import { CreditCard, DollarSign, Package, TrendingUp, ShoppingCart } from "lucide-react"
 import { getStats } from "@/actions/get-stats"
 import { getStockCount } from "@/actions/get-stock-count"
 import { getGraphRevenue } from "@/actions/get-month-revenue"
@@ -29,7 +29,6 @@ export default async function DashboardPage({ params }: { params: { storeId: str
     const graphRevenue = await getGraphRevenue(params.storeId)
     const salesPercentage = await getSalesPercentage(params.storeId)
     const bestSeller = await getSalesByProduct(params.storeId)
-
     const aovData = graphRevenue.filter(data => data.order_count > 0).map(data => {
         return {
             name: data.name,
@@ -37,9 +36,19 @@ export default async function DashboardPage({ params }: { params: { storeId: str
             revenue: data.revenue
         }
     })
-    
-    const lastMonth = graphRevenue[new Date().getMonth() - 1].revenue
-    const lastLastMonth = graphRevenue[new Date().getMonth() - 2].revenue
+
+    let lastMonth;
+    let lastLastMonth;
+    if(new Date().getMonth() === 0) {
+        lastMonth = graphRevenue[11].revenue
+        lastLastMonth = graphRevenue[10].revenue
+    } else if (new Date().getMonth() === 1) {
+        lastMonth = graphRevenue[0].revenue
+        lastLastMonth = graphRevenue[11].revenue
+    } else {
+        lastMonth = graphRevenue[new Date().getMonth() - 1].revenue
+        lastLastMonth = graphRevenue[new Date().getMonth() - 2].revenue
+    }
 
     return (
         <>
